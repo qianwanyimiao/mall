@@ -1,0 +1,90 @@
+<template>
+  <div class='goods-item'>
+    <img :src="goodsItem.show.img" alt="商品图片">
+    <div class="goods-info">
+      <p> {{goodsItem.title}} </p>
+      <span class="price"> ￥ {{goodsItem.price}} </span>
+      <span class="collect"> {{goodsItem.cfav}} </span>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'GoodsListItem',
+    components: {
+    },
+    data () {
+      return {};
+    },
+    props: {
+      goodsItem: {
+        type: Object,
+        defaults () {
+          return {}
+        }
+      }
+    },
+    //计算属性
+    computed: {},
+    //监控data中的数据变化
+    watch: {},
+    //方法集合
+    methods: {},
+    //生命周期 - 创建完成（可以访问当前this实例）
+    created () {},
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted () {},
+    //生命周期 - 更新之前
+    updated () {},
+    //生命周期 - 销毁完成
+    destroyed () {},
+    //如果页面有keep-alive缓存功能，这个函数会触发
+    activated () {},
+    }
+  </script>
+<style scoped>
+  .goods-item {
+    padding-bottom: 40px;
+    position: relative;
+    width: 48vw;
+  }
+  .goods-item img {
+    width: 100%;
+  }
+
+  .goods-info {
+    font-size: 12px;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .goods-info p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 3px;
+  }
+
+  .goods-info .price {
+    color: var(--color-high-text);
+    margin-right: 20px;
+  }
+
+  .goods-info .collect {
+    position: relative;
+  }
+
+  .goods-info .collect::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    background: url("~assets/img/common/collect.svg") 0 0/14px 14px;
+  }
+</style>
