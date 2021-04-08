@@ -7,6 +7,8 @@
   </div>
 </template>
 <script>
+  import {throttle} from 'common/utils'
+
   import BScroll from '@better-scroll/core'
   import Pullup from '@better-scroll/pull-up'
   import ObserveDOM from '@better-scroll/observe-dom'
@@ -59,9 +61,12 @@
       // 监听滚动位置
       probeScroll () {
         if(this.probeType === 2 || this.probeType === 3){
-          this.scroll.on('scroll', position => {
+          // 使用节流函数封装
+          const tc = throttle(position => {
+          // 设置0.1秒发出一次滚动事件信号，减少性能损耗
           this.$emit('scroll', position)
-        })
+        }, 100)
+          this.scroll.on('scroll', tc)
         }
       },
       // 上拉加载更多

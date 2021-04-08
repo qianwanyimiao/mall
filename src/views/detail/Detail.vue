@@ -1,8 +1,16 @@
 <template>
   <div id='detail'>
     <!-- 导航栏 -->
-    <detail-nav-bar class="detail-nav" @titleClick='titleClick'></detail-nav-bar>
-    <scroll class="content" ref="scroll">
+    <detail-nav-bar
+    ref="nav"
+    class="detail-nav"
+    @titleClick='titleClick'></detail-nav-bar>
+    <scroll
+    class="content"
+    ref="scroll"
+    :probe-type="3"
+    @scroll="contentScroll"
+    >
       <!-- 轮播图 -->
     <detail-swiper :top-images='topImages'></detail-swiper>
     <!-- 商品基本信息 -->
@@ -62,6 +70,7 @@
         recommends:[],
         itemImageListener: null,
         areaTopY:[], // 参数，评论等区域距离顶部的高度
+        currentIndex: 0,
       };
     },
     props: {},
@@ -113,6 +122,22 @@
       // 需要减去导航栏高度44px
       titleClick (index) {
         this.$refs.scroll.scrollTo(0, -(this.areaTopY[index] - 44), 200)
+      },
+
+      contentScroll (position) {
+        // 1.获取y坐标
+        const positionY = -position.y
+        // 2. 判断当前所在区域
+        let length = this.areaTopY.length;
+        for(let i = 0; i < length; i++){
+          if(this.currentIndex !== i &&
+          ((i < length - 1 && positionY >= this.areaTopY[i] && positionY < this.areaTopY[i + 1])
+          || (i === length - 1 && positionY >= this.areaTopY[i]))){
+            this.currentIndex = i
+            this.$refs.nav.currentIndex = this.currentIndex
+        }
+        }
+
       }
     },
     //生命周期 - 创建完成（可以访问当前this实例）

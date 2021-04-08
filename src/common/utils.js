@@ -14,6 +14,23 @@ export function debounce (func, delay=500) {  // 默认延迟设置为500ms
   }
 }
 
+// 函数节流的实现;
+export function throttle(fn, delay) {
+  let preTime = Date.now();
+
+  return function() {
+    let context = this,
+      args = arguments,
+      nowTime = Date.now();
+
+    // 如果两次时间间隔超过了指定时间，则执行函数。
+    if (nowTime - preTime >= delay) {
+      preTime = Date.now();
+      return fn.apply(context, args);
+    }
+  };
+}
+
 // 格式化时间戳
 export function formatDate (date, fmt) {
   // 匹配年份
