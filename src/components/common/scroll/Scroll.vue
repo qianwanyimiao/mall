@@ -27,11 +27,11 @@
       };
     },
     props: {
-      probeType: {
+      probeType: {  // 检测滚动位置的类型，默认为0即不检测
         type: Number,
         default: 0,
       },
-      pullUpLoad: {
+      pullUpLoad: { // 上拉加载
         type: Boolean,
         default: false
       }
@@ -44,33 +44,42 @@
     methods: {
       scrollInit () {
         this.scroll = new BScroll(this.$refs.wrapper, {
-        click: true,
-        observeDOM: true,
+        click: true,  // 是否阻止原生click事件
+        observeDOM: true, // 检测dom元素加载，但不能检测图片，需要和observeImage配合
         probeType: this.probeType,
-        mouseWheel: true,
-        pullUpLoad: this.pullUpLoad
+        mouseWheel: true, // 开启鼠标滚轮滚动功能，默认为关闭
+        pullUpLoad: this.pullUpLoad,
+        // observeImage: true // 这个用于检测图片加载
       })
       },
       // 滚动到某个位置，滚动时间默认为300毫秒
       scrollTo (x, y, time=300) {
-        this.scroll.scrollTo(x, y, time)
+        this.scroll && this.scroll.scrollTo(x, y, time)
       },
       // 监听滚动位置
       probeScroll () {
-        this.scroll.on('scroll', position => {
+        if(this.probeType === 2 || this.probeType === 3){
+          this.scroll.on('scroll', position => {
           this.$emit('scroll', position)
         })
+        }
       },
       // 上拉加载更多
       pullingUp () {
-        this.scroll.on('pullingUp', () => {
+        if(this.pullUpLoad) {
+          this.scroll.on('pullingUp', () => {
           this.$emit('pullingUp')
         })
+        }
       },
       // 上拉加载结束
       finishPullUp () {
         this.scroll.finishPullUp()
-      }
+      },
+      // 刷新滚动区域的高度
+      refresh () {
+        this.scroll && this.scroll.refresh()
+      },
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created () {},

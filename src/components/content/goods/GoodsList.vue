@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class='goods-list'>
     <goods-list-item
     v-for="item in goods"

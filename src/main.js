@@ -4,11 +4,15 @@ import router from './router'
 import store from './store'
 import {
   Swipe,
-  SwipeItem
+  SwipeItem,
+  ImagePreview,
 } from 'vant';
 
 Vue.use(Swipe);
 Vue.use(SwipeItem);
+Vue.use(ImagePreview);
+
+Vue.prototype.$bus = new Vue()
 
 Vue.config.productionTip = false
 Vue.config.devtools = true;

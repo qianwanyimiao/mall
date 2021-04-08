@@ -11,7 +11,7 @@
     <van-swipe class="home-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item class="home-swipe-item" v-for="item in banners" :key="item.acm">
         <a :href="item.link">
-          <img :src="item.image" alt="">
+          <img :src="item.image" alt="广告图片" @load="imageLoad">
         </a>
       </van-swipe-item>
     </van-swipe>
@@ -26,7 +26,9 @@
       // SwiperItem
     },
     data () {
-      return {};
+      return {
+        isLoad: false,
+      };
     },
     props: {
       banners: {
@@ -41,7 +43,14 @@
     //监控data中的数据变化
     watch: {},
     //方法集合
-    methods: {},
+    methods: {
+      imageLoad () {
+        if(!this.isLoad){ // 使用isLoad进行状态记录，防止发出多次事件
+          this.$emit('swiperImageLoad')
+          this.isLoad = true
+        }
+      }
+    },
     //生命周期 - 创建完成（可以访问当前this实例）
     created () {},
     //生命周期 - 挂载完成（可以访问DOM元素）

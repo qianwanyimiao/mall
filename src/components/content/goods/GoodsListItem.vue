@@ -1,6 +1,6 @@
 <template>
-  <div class='goods-item'>
-    <img :src="goodsItem.show.img" alt="商品图片">
+  <div class='goods-item' @click="itemClick">
+    <img :src="showImage" alt="商品图片" @load="imageLoad">
     <div class="goods-info">
       <p> {{goodsItem.title}} </p>
       <span class="price"> ￥ {{goodsItem.price}} </span>
@@ -25,11 +25,25 @@
       }
     },
     //计算属性
-    computed: {},
+    computed: {
+      // 详情页推荐图片数据在image里，首页在show.image
+      showImage () {
+        return this.goodsItem.image || this.goodsItem.show.img
+      }
+    },
     //监控data中的数据变化
     watch: {},
     //方法集合
-    methods: {},
+    methods: {
+      imageLoad () {
+        // 也可以直接取消离开首页后首页的全局事件监听
+        this.$bus.$emit('itemImageLoad')
+      },
+      // 跳转详情页
+      itemClick () {
+        this.$router.push('/detail/' + this.goodsItem.iid)
+      }
+    },
     //生命周期 - 创建完成（可以访问当前this实例）
     created () {},
     //生命周期 - 挂载完成（可以访问DOM元素）
