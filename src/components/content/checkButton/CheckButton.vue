@@ -1,30 +1,20 @@
-  <template>
-  <div class='goods-list'>
-    <goods-list-item
-    v-for="(item, index) in goods"
-    :key="index"
-    :goods-item="item"
-    >
-    </goods-list-item>
+<template>
+  <div class='check-button' :class="{check: isChecked}">
+    <img src="~assets/img/cart/tick.svg" alt="复选框背景">
   </div>
 </template>
 <script>
-  import GoodsListItem from './GoodsListItem'
-
   export default {
-    name: 'GoodsList',
+    name: 'CheckButton',
     components: {
-      GoodsListItem
     },
     data () {
       return {};
     },
     props: {
-      goods: {
-        type: Array,
-        default() {
-          return []
-        }
+      isChecked: {
+        type: Boolean,
+        default: false
       }
     },
     //计算属性
@@ -46,9 +36,14 @@
     }
   </script>
 <style scoped>
-  .goods-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  .check-button {
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    background-color: #aaa;
+  }
+
+  .check {
+    background-color: var(--color-tint);
+    border-color: var(--color-tint);
   }
 </style>

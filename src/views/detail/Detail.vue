@@ -26,6 +26,10 @@
     <!-- 推荐信息 -->
     <goods-list ref="recommend" :goods='recommends'></goods-list>
     </scroll>
+    <!-- 底部导航栏 -->
+    <detail-bottom-bar @addToCart='addToCart'></detail-bottom-bar>
+    <!-- 返回顶部按钮 -->
+    <back-top @click.native="scrollToTop" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 <script>
@@ -36,13 +40,14 @@
   import DetailGoodsInfo from './children/DetailGoodsInfo'
   import DetailParamInfo from './children/DetailParamInfo'
   import DetailCommentInfo from './children/DetailCommentInfo'
+  import DetailBottomBar from './children/DetailBottomBar'
 
   import Scroll from "components/common/scroll/Scroll";
   import GoodsList from 'components/content/goods/GoodsList'
 
   import { getDetail, getRecommend, Goods, Shop, GoodsParam} from "network/detail";
 
-  import {itemListenerMixin} from 'common/mixin'
+  import {itemListenerMixin, backTopMixin} from 'common/mixin'
 
   export default {
     name: 'Detail',
@@ -55,9 +60,10 @@
       DetailGoodsInfo,
       DetailParamInfo,
       DetailCommentInfo,
-      GoodsList
+      GoodsList,
+      DetailBottomBar,
     },
-    mixins: [itemListenerMixin],
+    mixins: [itemListenerMixin, backTopMixin],
     data () {
       return {
         iid: null,
@@ -116,29 +122,56 @@
         this.areaTopY.push(this.$refs.params.$el.offsetTop)
         this.areaTopY.push(this.$refs.comment.$el.offsetTop)
         this.areaTopY.push(this.$refs.recommend.$el.offsetTop)
+        this.areaTopY.push(Infinity)  // 用于比较最后一个区域，简化判断条件
         console.log(this.areaTopY);
       },
       // 点击导航跳到详情页相应位置
       // 需要减去导航栏高度44px
       titleClick (index) {
-        this.$refs.scroll.scrollTo(0, -(this.areaTopY[index] - 44), 200)
+        // 滚动时间不为0会有bug
+        this.$refs.scroll.scrollTo(0, -(this.areaTopY[index] - 44), 0)
+        this.currentIndex = index
+        console.log(this.currentIndex);
+        this.$refs.nav.currentIndex = this.currentIndex
       },
-
+      // 监听滚动高度
       contentScroll (position) {
         // 1.获取y坐标
-        const positionY = -position.y
+        const positionY = -position.y + 44
         // 2. 判断当前所在区域
         let length = this.areaTopY.length;
-        for(let i = 0; i < length; i++){
+        for(let i = 0; i < length - 1; i++){
+          // if(this.currentIndex !== i &&
+          // ((i < length - 1 && positionY >= this.areaTopY[i] && positionY < this.areaTopY[i + 1])
+          // || (i === length - 1 && positionY >= this.areaTopY[i]))){
+          //   this.currentIndex = i
+          //   this.$refs.nav.currentIndex = this.currentIndex
+          //   console.log(this.currentIndex);
+
+          // 加入了最后一个无穷大的数后减少了判断条件
           if(this.currentIndex !== i &&
-          ((i < length - 1 && positionY >= this.areaTopY[i] && positionY < this.areaTopY[i + 1])
-          || (i === length - 1 && positionY >= this.areaTopY[i]))){
+          (positionY >= this.areaTopY[i] && positionY < this.areaTopY[i + 1])){
             this.currentIndex = i
             this.$refs.nav.currentIndex = this.currentIndex
-        }
-        }
+          }
 
-      }
+        }
+        // 该函数在混入函数内，用来判断是否要显示返回顶部按钮
+        this.showBackTop(position)
+      },
+      // 添加到购物车
+      addToCart () {
+        // 1.获取购物车需要展示和保存的信息
+        const product = {}
+        product.iid = this.iid
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.count = 1
+        // 2.将商品添加到购物车
+        this.$store.dispatch('addCart', product)
+      },
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created () {
@@ -168,7 +201,7 @@
   }
 
   .content {
-    height: calc(100% - 44px);
+    height: calc(100% - 93px);
   }
 
   .detail-nav {

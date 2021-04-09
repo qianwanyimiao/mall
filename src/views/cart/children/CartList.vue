@@ -1,34 +1,33 @@
-  <template>
-  <div class='goods-list'>
-    <goods-list-item
-    v-for="(item, index) in goods"
-    :key="index"
-    :goods-item="item"
+<template>
+  <div class='cart-list'>
+    <cart-list-item
+    class="cart-list-item"
+    v-for="item in cartList"
+    :key="item.iid"
+    :itemInfo='item'
     >
-    </goods-list-item>
+    </cart-list-item>
   </div>
 </template>
 <script>
-  import GoodsListItem from './GoodsListItem'
+  import {mapGetters} from 'vuex'
+  import CartListItem from './CartListItem'
 
   export default {
-    name: 'GoodsList',
+    name: 'CartList',
     components: {
-      GoodsListItem
+      CartListItem
     },
     data () {
       return {};
     },
-    props: {
-      goods: {
-        type: Array,
-        default() {
-          return []
-        }
-      }
-    },
+    props: {},
     //计算属性
-    computed: {},
+    computed: {
+      ...mapGetters({
+        cartList:'cartList'
+      })
+    },
     //监控data中的数据变化
     watch: {},
     //方法集合
@@ -46,9 +45,7 @@
     }
   </script>
 <style scoped>
-  .goods-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  .cart-list-item {
+    width: 100vw;
   }
 </style>

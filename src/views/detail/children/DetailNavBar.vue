@@ -46,6 +46,7 @@
       titleClick (index) {
         this.currentIndex = index
         this.$emit('titleClick', index)
+        console.log(this.currentIndex)
       },
       // 返回按钮
       backClick () {

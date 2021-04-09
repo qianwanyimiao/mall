@@ -13,7 +13,7 @@
     v-show="isTabFixed"
     >
     </tab-control>
-    <!-- 首页轮播图 -->
+
     <scroll class="content"
     ref="scroll"
     :probe-type="2"
@@ -21,6 +21,7 @@
     @scroll='contentScroll'
     @pullingUp='loadMore'
     >
+      <!-- 首页轮播图 -->
       <home-swiper
       :banners="banners"
       @swiperImageLoad="swiperImageLoad"
@@ -48,16 +49,15 @@
 
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
-  import BackTop from 'components/content/backTop/BackTop'
 
   import HomeSwiper from './children/HomeSwiper'
   import HomeRecommend from './children/HomeRecommend'
   import PopularView from './children/PopulerView'
 
   import * as homeApi from 'network/home'
-  import {NEW, POP, SELL, BACKTOP_DISTANCE} from "common/const"
+  import {NEW, POP, SELL} from "common/const"
   import {debounce} from 'common/utils'
-  import {itemListenerMixin} from 'common/mixin'
+  import {itemListenerMixin, backTopMixin} from 'common/mixin'
 
   export default {
     name:'Home',
@@ -69,9 +69,8 @@
       PopularView,
       GoodsList,
       Scroll,
-      BackTop
     },
-    mixins:[itemListenerMixin],
+    mixins:[itemListenerMixin, backTopMixin],
     data () {
       return{
         banners: [], // 首页轮播图
@@ -83,7 +82,6 @@
 
         },
         currentType: POP,
-        isShowBackTop: false, //是否显示回到顶部按钮
         isTabFixed:false, // 是否显示tabControl吸顶效果
         tabOffsetTop: 0,
         saveY:0,
@@ -131,14 +129,12 @@
             break
         }
       },
-      // 滚动回顶部
-      scrollToTop () {
-        this.$refs.scroll.scrollTo(0, 0)
-      },
+
       // 监听当前滚动到哪个位置
       contentScroll (position) {
         // 1.判断当前滚动到顶部按钮是否显示，y坐标小于-1000才显示此按钮
-        this.isShowBackTop = (-position.y) > BACKTOP_DISTANCE
+        // 这个函数在混入函数内定义
+        this.showBackTop(position)
         // 2.决定tabControl组件是否吸顶（position：fixed）
         this.isTabFixed = (-position.y) > this.tabOffsetTop
       },
@@ -236,6 +232,8 @@
   }
 
   .tab-control {
+    /* 不知道为什么有一个空格的间隙 */
+    top: -1px;
     position: relative;
     z-index: 9;
   }
