@@ -135,7 +135,6 @@
         // 滚动时间不为0会有bug
         this.$refs.scroll.scrollTo(0, -(this.areaTopY[index] - 44), 0)
         this.currentIndex = index
-        console.log(this.currentIndex);
         this.$refs.nav.currentIndex = this.currentIndex
       },
       // 监听滚动高度
@@ -158,7 +157,6 @@
             this.currentIndex = i
             this.$refs.nav.currentIndex = this.currentIndex
           }
-
         }
         // 该函数在混入函数内，用来判断是否要显示返回顶部按钮
         this.showBackTop(position)
@@ -176,7 +174,8 @@
         product.count = 1
         // 2.将商品添加到购物车
         this.addCart(product).then(res => {
-          this.$toast.show(res, 1000)
+          // this.$toast.show(res, 1000)
+          console.log(res);
         })
       },
     },

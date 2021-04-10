@@ -9,8 +9,8 @@ import {
   ImagePreview,
 } from 'vant';
 // 安装自定义插件
-import toast from 'components//common/toast'
-Vue.use(toast)
+// import toast from 'components//common/toast'
+// Vue.use(toast)
 
 Vue.use(Swipe);
 Vue.use(SwipeItem);

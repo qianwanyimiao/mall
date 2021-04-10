@@ -1,7 +1,7 @@
 <template>
   <div class='goods-item' @click="itemClick">
-    <!-- 使用图片懒加载 -->
-    <img v-lazy="showImage" alt="商品图片" @load="imageLoad">
+    <!-- 使用图片懒加载就用v-lazy替换：src-->
+    <img :src="showImage" alt="商品图片" @load="imageLoad">
     <div class="goods-info">
       <p> {{goodsItem.title}} </p>
       <span class="price"> ￥ {{goodsItem.price}} </span>
@@ -27,9 +27,9 @@
     },
     //计算属性
     computed: {
-      // 详情页推荐图片数据在image里，首页在show.image
+      // 详情页推荐图片数据在image里，首页在show.image，分类在img里
       showImage () {
-        return this.goodsItem.image || this.goodsItem.show.img
+        return this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
       }
     },
     //监控data中的数据变化

@@ -1,6 +1,7 @@
 import {debounce} from 'common/utils'
 import BackTop from 'components/content/backTop/BackTop'
-import {BACKTOP_DISTANCE} from "common/const"
+import {BACKTOP_DISTANCE} from "./const"
+import {POP, NEW, SELL} from "./const"
 // 监听商品列表图片的刷新
 export const itemListenerMixin = {
   data() {
@@ -42,4 +43,28 @@ export const backTopMixin = {
       this.isShowBackTop = (-position.y) > BACKTOP_DISTANCE
     },
   },
+}
+
+export const tabControlMixin = {
+  data: function () {
+    return {
+      currentType: POP
+    }
+  },
+  methods: {
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = POP
+          break
+        case 1:
+          this.currentType = NEW
+          break
+        case 2:
+          this.currentType = SELL
+          break
+      }
+      console.log(this.currentType);
+    }
+  }
 }

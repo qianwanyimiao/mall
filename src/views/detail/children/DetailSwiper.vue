@@ -9,7 +9,7 @@
       v-for="item in topImages"
       :key="item"
       >
-        <img v-lazy="item" @click="imagePreview(item)" alt="详情页图片">
+        <img :src="item" @click="imagePreview(item)" alt="详情页图片">
       </van-swipe-item>
     </van-swipe>
   </div>
