@@ -11,7 +11,7 @@
     <van-swipe class="home-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item class="home-swipe-item" v-for="item in banners" :key="item.acm">
         <a :href="item.link">
-          <img :src="item.image" alt="广告图片" @load="imageLoad">
+          <img v-lazy="item.image" alt="广告图片" @load="imageLoad">
         </a>
       </van-swipe-item>
     </van-swipe>

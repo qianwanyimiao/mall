@@ -2,7 +2,10 @@
   <div id="shop-item">
     <div class="item-selector">
       <!-- 复选框 -->
-      <check-button @checkBtnClick="checkedChange" v-model="itemInfo.checked"></check-button>
+      <check-button
+      @click.native="checkedChange"
+      :is-checked='itemInfo.checked'
+      ></check-button>
     </div>
     <!-- 商品图片 -->
     <div class="item-img">
@@ -42,7 +45,11 @@
     //监控data中的数据变化
     watch: {},
     //方法集合
-    methods: {},
+    methods: {
+      checkedChange () {
+        this.itemInfo.checked = !this.itemInfo.checked
+      }
+    },
     //生命周期 - 创建完成（可以访问当前this实例）
     created () {},
     //生命周期 - 挂载完成（可以访问DOM元素）

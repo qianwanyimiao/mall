@@ -14,7 +14,7 @@
     props: {
       isChecked: {
         type: Boolean,
-        default: false
+        default: true
       }
     },
     //计算属性

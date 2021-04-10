@@ -8,13 +8,15 @@
       <!-- 购物车商品列表 -->
       <cart-list class="content"></cart-list>
     </scroll>
-
+    <cart-bottom-bar class="bottom-bar"></cart-bottom-bar>
     <!-- 价格汇总 -->
   </div>
 </template>
 <script>
   import Scroll from 'components/common/scroll/Scroll'
   import NavBar from 'components/common/navbar/NavBar'
+
+  import CartBottomBar from './children/CartBottomBar'
   import CartList from './children/CartList'
 
   import { mapGetters } from "vuex";
@@ -24,7 +26,8 @@
     components:{
       NavBar,
       CartList,
-      Scroll
+      Scroll,
+      CartBottomBar
     },
     data(){
       return{};
@@ -75,7 +78,8 @@
   }
 
   .content {
-    height: calc(100% - 93px);
+    /* 视口高度减去上方标题栏，底部汇总栏，下方导航栏高度 */
+    height: calc(100vh - 93px - 40px);
   }
 
 </style>

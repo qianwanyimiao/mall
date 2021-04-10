@@ -49,6 +49,8 @@
 
   import {itemListenerMixin, backTopMixin} from 'common/mixin'
 
+  import { mapActions } from "vuex";
+
   export default {
     name: 'Detail',
     components: {
@@ -86,6 +88,8 @@
     watch: {},
     //方法集合
     methods: {
+      // 将vuex里的actions映射到组件的方法
+      ...mapActions(['addCart']),
       // 根据iid向后端请求数据
       getDetail () {
         getDetail(this.iid).then(res => {
@@ -168,9 +172,12 @@
         product.title = this.goods.title
         product.desc = this.goods.desc
         product.price = this.goods.realPrice
+        product.checked = true
         product.count = 1
         // 2.将商品添加到购物车
-        this.$store.dispatch('addCart', product)
+        this.addCart(product).then(res => {
+          this.$toast.show(res, 1000)
+        })
       },
     },
     //生命周期 - 创建完成（可以访问当前this实例）
