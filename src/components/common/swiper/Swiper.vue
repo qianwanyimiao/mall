@@ -26,19 +26,19 @@
 export default {
   name: "Swiper",
   props: {
-    interval: {
+    interval: { // 轮播的间隔
       type: Number,
       default: 3000,
     },
-    animDuration: {
+    animDuration: { // 轮播动画的时间
       type: Number,
       default: 300,
     },
-    moveRatio: {
+    moveRatio: {  // 手动拖动图片宽度的多少就到下一张图片
       type: Number,
       default: 0.25,
     },
-    showIndicator: {
+    showIndicator: {  // 显示轮播到第几个
       type: Boolean,
       default: true,
     },

@@ -1,3 +1,5 @@
+// 混入函数
+
 import {debounce} from 'common/utils'
 import BackTop from 'components/content/backTop/BackTop'
 import {BACKTOP_DISTANCE} from "./const"
@@ -44,7 +46,7 @@ export const backTopMixin = {
     },
   },
 }
-
+//  tabControl组件点击的一个混入函数，其实没什么必要
 export const tabControlMixin = {
   data: function () {
     return {
@@ -64,7 +66,6 @@ export const tabControlMixin = {
           this.currentType = SELL
           break
       }
-      console.log(this.currentType);
     }
   }
 }

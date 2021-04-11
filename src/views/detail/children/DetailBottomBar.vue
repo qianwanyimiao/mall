@@ -21,90 +21,71 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'DetailBottomBar',
-    components: {
+export default {
+  // 详情页底部导航
+  name: "DetailBottomBar",
+  //方法集合
+  methods: {
+    addToCart() { // 添加购物车
+      this.$emit("addToCart");
     },
-    data () {
-      return {};
-    },
-    props: {},
-    //计算属性
-    computed: {},
-    //监控data中的数据变化
-    watch: {},
-    //方法集合
-    methods: {
-      addToCart() {
-        this.$emit('addToCart')
-      }
-    },
-    //生命周期 - 创建完成（可以访问当前this实例）
-    created () {},
-    //生命周期 - 挂载完成（可以访问DOM元素）
-    mounted () {},
-    //生命周期 - 更新之前
-    updated () {},
-    //生命周期 - 销毁完成
-    destroyed () {},
-    //如果页面有keep-alive缓存功能，这个函数会触发
-    activated () {},
-    }
-  </script>
+  },
+};
+</script>
 <style scoped>
-  .bottom-bar {
-    height: 49px;
-    background-color: #fff;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    text-align: center;
-  }
+.bottom-bar {
+  height: 49px;
+  background-color: #fff;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  text-align: center;
+}
 
-  .bar-item {
-    flex: 1;
-    display: flex;
-  }
-  /* >表示选择bar-item子一代的div元素，不使用>直接两个连起来
+.bar-item {
+  flex: 1;
+  display: flex;
+}
+/* >表示选择bar-item子一代的div元素，不使用>直接两个连起来
   表示选择后代所有div元素 */
-  .bar-item>div {
-    flex: 1;
-  }
+.bar-item > div {
+  flex: 1;
+}
 
-  .bar-left .text {
-    font-size: 13px;
-  }
+.bar-left .text {
+  font-size: 13px;
+}
 
-  .bar-left .icon {
-    display: block;
-    width: 22px;
-    height: 22px;
-    margin: 5px auto 3px;
-    background: url("~assets/img/detail/detail_bottom.png") 0 0/100%;
-  }
+.bar-left .icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 5px auto 3px;
+  background: url("~assets/img/detail/detail_bottom.png") 0 0/100%;
+}
 
-  .bar-left .service {
-    background-position:0 -54px;
-  }
+.bar-left .service {
+  background-position: 0 -54px;
+}
 
-  .bar-left .shop {
-    background-position:0 -98px;
-  }
+.bar-left .shop {
+  background-position: 0 -98px;
+}
 
-  .bar-right {
-    font-size: 15px;
-    color: #fff;
-    line-height: 49px;
-  }
+.bar-right {
+  font-size: 15px;
+  color: #fff;
+  line-height: 49px;
+}
 
-  .bar-right .cart {
-    background-color: #ffe817;
-    color: #333;
-  }
+.bar-right .cart {
+  background-color: #ffe817;
+  color: #333;
+}
 
-  .bar-right .buy {
-    background-color: #f69;
-  }
+.bar-right .buy {
+  background-color: #f69;
+}
 </style>

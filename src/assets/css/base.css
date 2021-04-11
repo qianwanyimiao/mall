@@ -1,3 +1,4 @@
+/* 经常使用到的一些样式 */
 @import "./normalize.css";
 
 :root {
@@ -31,7 +32,7 @@ a {
   text-decoration: none;
 }
 
-
+/* 清除浮动 */
 .clear-fix::after {
   clear: both;
   content: '';

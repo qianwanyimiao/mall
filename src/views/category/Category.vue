@@ -4,19 +4,22 @@
       <template v-slot:center="">
         <div>商品分类</div>
       </template>
-      </nav-bar>
+    </nav-bar>
     <div class="content">
+      <!-- 左边的分类栏 -->
       <tab-menu :categories="categories" @selectItem="selectItem"></tab-menu>
-
+      <!-- 右边的详细分类 -->
       <scroll id="tab-content" :data="[categoryData]">
         <div>
           <tab-content-category
             :subcategories="showSubcategory"
           ></tab-content-category>
+          <!-- 和首页一样的三个分类排行 -->
           <tab-control
             :titles="['综合', '新品', '销量']"
             @itemClick="tabClick"
           ></tab-control>
+          <!-- 排行里的商品信息 -->
           <tab-content-detail
             :category-detail="showCategoryDetail"
           ></tab-content-detail>
@@ -28,18 +31,18 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
-
-import TabMenu from "./childComps/TabMenu";
+import TabContentCategory from "./children/TabContentCategory";
+import TabContentDetail from "./children/TabContentDetail";
+import TabMenu from "./children/TabMenu";
 import TabControl from "components/content/tabControl/TabControl";
 import Scroll from "components/common/scroll/Scroll";
-import TabContentCategory from "./childComps/TabContentCategory";
-import TabContentDetail from "./childComps/TabContentDetail";
 
 import {
   getCategory,
   getSubcategory,
   getCategoryDetail,
 } from "network/category";
+// 引入常量
 import { POP, SELL, NEW } from "common/const";
 import { tabControlMixin } from "common/mixin";
 
@@ -53,12 +56,13 @@ export default {
     TabContentCategory,
     TabContentDetail,
   },
+  // 混入
   mixins: [tabControlMixin],
   data() {
     return {
-      categories: [],
-      categoryData: {},
-      currentIndex: -1,
+      categories: [], // 目录信息
+      categoryData: {}, // 目录里的数据
+      currentIndex: -1, // 当前显示的目录
     };
   },
   created() {
@@ -66,10 +70,12 @@ export default {
     this._getCategory();
   },
   computed: {
+    // 子目录数据
     showSubcategory() {
       if (this.currentIndex === -1) return {};
       return this.categoryData[this.currentIndex].subcategories;
     },
+    // 三个分类排行的商品数据
     showCategoryDetail() {
       if (this.currentIndex === -1) return [];
       return this.categoryData[this.currentIndex].categoryDetail[
@@ -78,6 +84,7 @@ export default {
     },
   },
   methods: {
+    // 获取分类数据
     _getCategory() {
       getCategory().then((res) => {
         // 1.获取分类数据
@@ -93,10 +100,11 @@ export default {
             },
           };
         }
-        // 3.请求第一个分类的数据
+        // 3.默认请求第一个分类的数据
         this._getSubcategories(0);
       });
     },
+    // 获取某个分类数据
     _getSubcategories(index) {
       this.currentIndex = index;
       const mailKey = this.categories[index].maitKey;
@@ -108,6 +116,7 @@ export default {
         this._getCategoryDetail(NEW);
       });
     },
+    // 获取排行榜里的商品数据
     _getCategoryDetail(type) {
       // 1.获取请求的miniWallkey
       const miniWallkey = this.categories[this.currentIndex].miniWallkey;
@@ -121,6 +130,7 @@ export default {
     /**
      * 事件响应相关的方法
      */
+    // 选中哪个分类
     selectItem(index) {
       this._getSubcategories(index);
     },

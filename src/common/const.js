@@ -1,3 +1,4 @@
+// 保存一些常量
 export const BACKTOP_DISTANCE = 1000
 
 export const POP = 'pop';

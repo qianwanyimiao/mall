@@ -21,8 +21,8 @@ BScroll.use(ObserveDOM);
 BScroll.use(Pullup);
 
 export default {
+  // 用开源的better-scroll实现的滚动组件
   name: "Scroll",
-  components: {},
   data() {
     return {
       scroll: null,
@@ -41,18 +41,16 @@ export default {
     },
     data: {
       type: Array,
-      default () {
+      default() {
         return [];
       },
     },
   },
-  //计算属性
-  computed: {},
-  //监控data中的数据变化
   watch: {
+    // data数据一变化就刷新一下
     data() {
-        setTimeout(this.refresh, 20)
-    }
+      setTimeout(this.refresh, 20);
+    },
   },
   //方法集合
   methods: {
@@ -98,20 +96,14 @@ export default {
       this.scroll && this.scroll.refresh();
     },
   },
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
+    // 初始化滚动组件
     this.scrollInit();
+    // 监听滚动位置（如果设置了的话）
     this.probeScroll();
+    // 监听上拉加载
     this.pullingUp();
   },
-  //生命周期 - 更新之前
-  updated() {},
-  //生命周期 - 销毁完成
-  destroyed() {},
-  //如果页面有keep-alive缓存功能，这个函数会触发
-  activated() {},
 };
 </script>
 <style scoped>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// 使用路由懒加载，当访问到对应路由才加载对应组件
 const Home = () => import( '../views/home/Home.vue')
 const Category = () => import('../views/category/Category.vue')
 const Cart = () => import('../views/cart/Cart.vue')

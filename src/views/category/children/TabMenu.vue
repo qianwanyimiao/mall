@@ -1,6 +1,7 @@
 <template>
   <scroll id="tab-menu">
     <div class="menu-list">
+      <!-- 主分类列表 -->
       <div
         class="menu-list-item"
         :class="{ active: index === currentIndex }"
@@ -18,20 +19,21 @@
 import Scroll from "components/common/scroll/Scroll";
 
 export default {
+  // 左边主目录
   name: "TabMenu",
   components: {
     Scroll,
   },
   props: {
-    categories: Array,
+    categories: Array,  // 目录分类列表
   },
   data() {
     return {
-      currentIndex: 0,
+      currentIndex: 0,  // 现在显示的目录
     };
   },
   methods: {
-    itemClick(index) {
+    itemClick(index) {  // 点击某个分类
       this.currentIndex = index;
       this.$emit("selectItem", index);
     },
@@ -53,7 +55,7 @@ export default {
   text-align: center;
   font-size: 14px;
 }
-
+/* 选中时的样式 */
 .menu-list-item.active {
   font-weight: 700;
   color: var(--color-high-text);

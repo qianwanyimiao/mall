@@ -6,9 +6,10 @@
 
 <script>
 export default {
+  // 实现网格布局的一个组件，当然直接用css网格布局更方便
   name: "GridView",
   props: {
-    cols: {
+    cols: { // 网格布局的栏数
       type: Number,
       default: 2,
     },
@@ -36,10 +37,9 @@ export default {
     this._autoLayout();
   },
   methods: {
+    // 挂载和更新时自动布局成网格
     _autoLayout: function () {
-      // 1.获取gridEl和children
-      // 注: 这里为什么不用document.querySelector呢?
-      // 答: 因为如果在项目中, 多处都用到了grid-view, 那么这里就不确定获取的是哪一个了.
+      // 1.获取自身和children
       let gridEl = this.$refs.gridView;
       let children = gridEl.children;
 
