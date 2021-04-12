@@ -13,6 +13,10 @@
         <i class="icon select"></i>
         <span class="text">收藏</span>
       </div>
+      <div @click="$goTo('/cart')">
+      <img src="~assets/img/detail/cartIcon.png" class='cartIcon' alt="">
+      <span class="text">购物车</span>
+    </div>
     </div>
     <div class="bar-item bar-right">
       <div class="cart" @click="addToCart">加入购物车</div>
@@ -29,6 +33,9 @@ export default {
     addToCart() { // 添加购物车
       this.$emit("addToCart");
     },
+    // buy() { // 直接购买
+    //   this.$emit('buy')
+    // }
   },
 };
 </script>
@@ -72,6 +79,13 @@ export default {
 
 .bar-left .shop {
   background-position: 0 -98px;
+}
+
+.bar-left .cartIcon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 5px auto 3px;
 }
 
 .bar-right {

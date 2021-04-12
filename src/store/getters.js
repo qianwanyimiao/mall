@@ -1,4 +1,4 @@
-// 最好是由getters改变state里的数据
+// 跟计算属性差不多
 export default {
   // 购物车商品总数
   cartLength (state) {

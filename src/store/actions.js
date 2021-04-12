@@ -7,12 +7,11 @@ export default {
       // 1.查找购物车是否存在该商品
     let product = context.state.cartList.find(item => item.iid === payload.iid)
     if(product){
-      context.commit(ADD_SAME_PRODUCT, product)
-      resolve('购物车该商品数量+1')
+      context.commit(ADD_SAME_PRODUCT, [product, payload])
     }else{
       context.commit(ADD_NEW_PRODUCT, payload)
-      resolve('购物车添加了新的商品')
     }
+    resolve('加入购物车成功')
     })
 
   }

@@ -76,13 +76,15 @@ export default {
 </script>
 <style scoped>
 .bottom-bar {
-  position: relative;
+  position: fixed;
   display: flex;
+  bottom: 49px;
+  left: 0;
+  right: 0;
   height: 40px;
   line-height: 40px;
   background-color: #eee;
 }
-
 .left {
   height: inherit;
   display: flex;
@@ -91,10 +93,10 @@ export default {
   margin-right: 8vw;
 }
 .check-button {
-  width: 5vw;
-  height: 5vw;
-  line-height: 5vw;
-  margin-right: 2vw;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin-right: 15px;
 }
 
 .calculate {

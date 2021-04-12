@@ -37,9 +37,20 @@
       <goods-list ref="recommend" :goods="recommends"></goods-list>
     </scroll>
     <!-- 底部导航栏 -->
-    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+    <detail-bottom-bar @addToCart="addCartClick"></detail-bottom-bar>
     <!-- 返回顶部按钮 -->
     <back-top @click.native="scrollToTop" v-show="isShowBackTop"></back-top>
+    <!-- 点击购物车弹出动作面板 -->
+    <van-action-sheet
+      v-model="showActionSheet"
+      description="选择参数和数量"
+    >
+      <detail-action-sheet
+        :size-list='paramInfo.sizeList'
+        @confirm='confirm'
+        @cancel="cancel"
+      ></detail-action-sheet>
+    </van-action-sheet>
   </div>
 </template>
 <script>
@@ -51,6 +62,7 @@ import DetailGoodsInfo from "./children/DetailGoodsInfo";
 import DetailParamInfo from "./children/DetailParamInfo";
 import DetailCommentInfo from "./children/DetailCommentInfo";
 import DetailBottomBar from "./children/DetailBottomBar";
+import DetailActionSheet from './children/DetailActionSheet'
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
@@ -80,6 +92,7 @@ export default {
     DetailCommentInfo,
     GoodsList,
     DetailBottomBar,
+    DetailActionSheet,
   },
   mixins: [itemListenerMixin, backTopMixin],
   data() {
@@ -90,10 +103,12 @@ export default {
       shop: {}, // 商家数据
       detailInfo: {}, // 商品详情数据
       paramInfo: {},  // 商品参数
+      sizeList: [], // 参数列表
       commentInfo: {},  // 评论数据
       recommends: [], // 推荐数据（为了方便其实每个商品的推荐信息都是一样的）
       areaTopY: [], // 参数，评论等区域距离顶部的高度
       currentIndex: 0,  // 当前视口所在高度区域
+      showActionSheet: false, // 是否显示动作面板
     };
   },
   //方法集合
@@ -184,7 +199,20 @@ export default {
     },
     // 添加到购物车
     addToCart() {
-      // 1.获取购物车需要展示和保存的信息
+
+    },
+    // 点击动作面板选项
+    addCartClick() {
+      this.showActionSheet = true
+    },
+    // 确认加入购物车
+    confirm(data) {
+      const size = data[0]
+      const count = data[1]
+      // 1. 关闭动作面板
+      this.showActionSheet = false
+      console.log(data);
+      // 2.获取购物车需要展示和保存的信息
       const product = {};
       product.iid = this.iid;
       product.image = this.topImages[0];
@@ -192,13 +220,18 @@ export default {
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
       product.checked = true;
-      product.count = 1;
-      // 2.将商品添加到购物车
+      product.count_size = [[size, count]];
+      product.count = count
+      // 3.将商品添加到购物车
       this.addCart(product).then((res) => {
         // this.$toast.show(res, 1000)
-        console.log(res);
+        this.$toast(res);
       });
     },
+    // 取消加入购物车
+    cancel() {
+      this.showActionSheet = false;
+    }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {

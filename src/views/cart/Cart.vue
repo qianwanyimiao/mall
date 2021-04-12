@@ -1,14 +1,11 @@
 <template>
   <div id="cart">
-    <!-- 顶部标题 -->
-    <nav-bar class="cart-nav">
-      <template v-slot:center=""
-        ><div>购物车( {{ cartLength }} )</div></template
-      >
-    </nav-bar>
-    <scroll ref="scroll">
+    <!-- 购物车导航栏，默认不显示返回按钮，除非上一个界面是详情页 -->
+    <cart-nav-bar :isShowBack="isShowBack"></cart-nav-bar>
+
+    <scroll ref="scroll" class="content">
       <!-- 购物车商品列表 -->
-      <cart-list class="content"></cart-list>
+      <cart-list></cart-list>
     </scroll>
     <!-- 价格汇总 -->
     <cart-bottom-bar class="bottom-bar"></cart-bottom-bar>
@@ -16,33 +13,40 @@
 </template>
 <script>
 import Scroll from "components/common/scroll/Scroll";
-import NavBar from "components/common/navbar/NavBar";
 
+import CartNavBar from "./children/CartNavBar";
 import CartBottomBar from "./children/CartBottomBar";
 import CartList from "./children/CartList";
-
-import { mapGetters } from "vuex";
 
 export default {
   // 购物车组件
   name: "Cart",
   components: {
-    NavBar,
     CartList,
     Scroll,
     CartBottomBar,
+    CartNavBar,
   },
-  //计算属性
-  computed: {
-    //将vuex里的getters映射到局部计算属性
-    ...mapGetters({
-      cartLength: "cartLength",
-    }),
+  data() {
+    return {
+      isShowBack: false, // 是否显示返回按钮
+    };
   },
   //如果页面有keep-alive缓存功能，这个函数会触发
   activated() {
     // 当前路由活跃时刷新一下滚动高度
     this.$refs.scroll.refresh();
+  },
+  // 组件导航守卫
+  beforeRouteEnter(to, from, next) {
+    // 如果是从商品详情页跳转来的，则显示返回按钮
+    if (/detail/.test(from.path)) {
+      next((vm) => {
+        vm.$data.isShowBack = true;
+      });
+    } else {
+      next();
+    }
   },
 };
 </script>
@@ -50,16 +54,13 @@ export default {
 #cart {
   height: 100vh;
 }
-.cart-nav {
-  background-color: var(--color-tint);
-  font-size: 5vw;
-  color: #fff;
-  position: relative;
-  z-index: 9;
-}
 
 .content {
-  /* 视口高度减去上方标题栏，底部汇总栏，下方导航栏高度 */
-  height: calc(100vh - 44px -49px - 40px);
+  position: absolute;
+  top: 44px;
+  bottom: 89px;
+  right: 0;
+  left: 0;
+  overflow: hidden;
 }
 </style>

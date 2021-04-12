@@ -8,13 +8,22 @@
       ></check-button>
     </div>
     <!-- 商品图片 -->
-    <div class="item-img">
-      <img :src="itemInfo.image" alt="商品图片" />
+    <div class="item-img return">
+      <img :src="itemInfo.image" alt="商品图片" @click='goToDetail'/>
     </div>
     <!-- 商品基本信息 -->
     <div class="item-info">
-      <div class="item-title">{{ itemInfo.title }}</div>
+      <div class="item-title return" @click='goToDetail'>{{ itemInfo.title }}</div>
       <div class="item-desc">商品描述: {{ itemInfo.desc }}</div>
+      <div class="size-desc">选中规格:
+        <span
+          class="size-item"
+          v-for="(item, index) in itemInfo.count_size"
+          :key="index"
+        >
+        {{item[0]}}: x{{item[1]}}
+        </span>
+      </div>
       <div class="info-bottom">
         <div class="item-price left">¥{{ itemInfo.price }}</div>
         <div class="item-count right">x{{ itemInfo.count }}</div>
@@ -40,9 +49,14 @@ export default {
     },
   },
   methods: {
+    // 复选框点击
     checkedChange() {
       this.itemInfo.checked = !this.itemInfo.checked;
     },
+    // 点击图片或者商品标题可跳转到对应商品详情页
+    goToDetail(){
+      this.$goTo("/detail/" + this.itemInfo.iid);
+    }
   },
 };
 </script>
@@ -76,7 +90,7 @@ export default {
 
 .item-img img {
   width: 20vw;
-  height: 14vh;
+  height: 100%;
   display: block;
   border-radius: 5px;
 }
@@ -89,21 +103,33 @@ export default {
   overflow: hidden;
 }
 
-.item-info .item-desc {
+.item-desc {
   font-size: 14px;
   color: #666;
   margin-top: 15px;
 }
 
+.size-desc {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  padding-top: 5px;
+}
+
+.size-item {
+  margin-right: 4px;
+}
+
 .info-bottom {
-  margin-top: 10px;
+  width: 100%;
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
+  bottom: 0;
+  padding-right: 20px;
+
 }
 
 .info-bottom .item-price {
   color: orangered;
 }
+
 </style>
